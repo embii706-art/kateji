@@ -1,0 +1,7 @@
+# assets/images/ folder
+# Untuk menyimpan gambar-gambar aplikasi seperti:
+# - Splash screen images
+# - Empty state illustrations
+# - Default avatars
+# - Onboarding images
+# dll.

@@ -1,0 +1,13 @@
+# Buat placeholder logo untuk launcher icon
+# Ini hanya placeholder, nanti bisa diganti dengan logo asli
+
+# Untuk sementara, gunakan icon default Flutter
+# atau buat logo sederhana menggunakan tools online seperti:
+# - https://romannurik.github.io/AndroidAssetStudio/
+# - https://icon.kitchen/
+# - Canva
+
+# Setelah punya logo:
+# 1. Save sebagai PNG 1024x1024
+# 2. Paste di assets/icons/logo.png
+# 3. Run: flutter pub run flutter_launcher_icons:main
