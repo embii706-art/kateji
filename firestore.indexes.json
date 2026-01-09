@@ -1,0 +1,37 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "kegiatan",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "tanggal", "order": "DESCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "kas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "tanggal", "order": "DESCENDING" },
+        { "fieldPath": "jenis", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "berita",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "createdAt", "order": "DESCENDING" },
+        { "fieldPath": "kategori", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "aspirasi",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

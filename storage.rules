@@ -1,0 +1,67 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+    
+    function isPDF() {
+      return request.resource.contentType == 'application/pdf';
+    }
+    
+    function isValidFileType() {
+      return isImage() || isPDF();
+    }
+    
+    function isValidSize() {
+      return request.resource.size < 10 * 1024 * 1024; // 10MB
+    }
+    
+    // Karteji folder structure
+    match /karteji/{allPaths=**} {
+      // Anggota folder - foto profil
+      match /anggota/{userId}/{fileName} {
+        allow read: if isAuthenticated();
+        allow write: if isAuthenticated() && 
+                       isValidFileType() && 
+                       isValidSize() &&
+                       (request.auth.uid == userId || 
+                        get(/databases/(default)/documents/users/$(request.auth.uid)).data.role in ['admin', 'pengurus']);
+      }
+      
+      // Kegiatan folder - dokumentasi kegiatan
+      match /kegiatan/{kegiatanId}/{fileName} {
+        allow read: if isAuthenticated();
+        allow write: if isAuthenticated() && 
+                       isValidFileType() && 
+                       isValidSize() &&
+                       get(/databases/(default)/documents/users/$(request.auth.uid)).data.role in ['admin', 'pengurus'];
+      }
+      
+      // Keuangan folder - bukti transaksi
+      match /keuangan/{kasId}/{fileName} {
+        allow read: if isAuthenticated() && 
+                      get(/databases/(default)/documents/users/$(request.auth.uid)).data.role in ['admin', 'pengurus', 'ketua_rt', 'anggota'];
+        allow write: if isAuthenticated() && 
+                       isValidFileType() && 
+                       isValidSize() &&
+                       get(/databases/(default)/documents/users/$(request.auth.uid)).data.role in ['admin', 'pengurus'];
+      }
+      
+      // Berita folder - gambar berita
+      match /berita/{beritaId}/{fileName} {
+        allow read: if true; // public
+        allow write: if isAuthenticated() && 
+                       isImage() && 
+                       isValidSize() &&
+                       get(/databases/(default)/documents/users/$(request.auth.uid)).data.role in ['admin', 'pengurus'];
+      }
+    }
+  }
+}
